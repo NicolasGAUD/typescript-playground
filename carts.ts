@@ -8,12 +8,11 @@ const vanilla: Candle = { id: 8, name: "Vanille", price: 17.5 };
 
 
 class Cart {
-    owner: string;
-    items: Candle[];
+    readonly owner: string;
+    private items: Candle[] = [];
 
     constructor(owner: string) {
         this.owner = owner;
-        this.items = [];
     }
 
     add(candle: Candle): void {
@@ -26,11 +25,10 @@ class Cart {
 }
 
 const inesCart: Cart = new Cart("Inès");
-const hugoCart: Cart = new Cart("Hugo");
+inesCart.add(fig);            // ✅ la porte prévue
+// inesCart.items.push(fig);     // ❌ Property 'items' is private and only accessible within class 'Cart'.
+// inesCart.owner = "Hugo";      // ❌ Cannot assign to 'owner' because it is a read-only property.
 
-inesCart.add(fig);
-hugoCart.add(vanilla);
-hugoCart.add(fig);
+console.log(inesCart.getTotal());
 
-console.log(inesCart.getTotal()); // 19.9
-console.log(hugoCart.getTotal()); // 37.4
+
