@@ -18,13 +18,18 @@ const orders: Order[] = [
     { id: 1044, status: "pending", total: 19.9, giftMessage: null },
 ];
 
+// function findOrder(id: number): Order | null {
+//     for (let i = 0; i < orders.length; i++) {
+//         if (orders[i].id === id) {
+//             return orders[i];
+//         }
+//     }
+//     return null;
+// }
+
+// CLAUDE REFACTOR
 function findOrder(id: number): Order | null {
-    for (let i = 0; i < orders.length; i++) {
-        if (orders[i].id === id) {
-            return orders[i];
-        }
-    }
-    return null;
+    return orders.find((order) => order.id === id) ?? null;
 }
 
 function statusLabel(status: string) {
@@ -47,8 +52,16 @@ function idFromUrl(id:number | string) {
     return id;
 }
 
-function createOrder(newOrder:NewOrder) {
-    const created = {id: 1045, ...newOrder };
+// function createOrder(newOrder:NewOrder) {
+//     const created = {id: 1045, ...newOrder };
+//     orders.push(created);
+//     return created;
+// }
+
+// CLAUDE REFACTOR
+function createOrder(newOrder: NewOrder): Order {
+    const nextId = orders.reduce((max, order) => Math.max(max, order.id), 0) + 1;
+    const created: Order = { id: nextId, ...newOrder };
     orders.push(created);
     return created;
 }
@@ -58,9 +71,11 @@ function updateOrder(order: Order, changes: OrderChanges) {
 }
 
 const order: Order | null = findOrder(idFromUrl("1044"));
-if (order !== null){
+if (order === null) {
+    console.log("Commande introuvable");
+} else {
     console.log(order.total + " € : " + statusLabel(order.status));
-    if (order.giftMessage !== null){
+    if (order.giftMessage !== null) {
         console.log(order.giftMessage.toUpperCase());
     }
 }
