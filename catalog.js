@@ -4,6 +4,19 @@ async function fetchCandle(id) {
     const res = new Response(body); // remplace fetch(`/candles/${id}`) le temps de l'essai
     return await res.json();
 }
+// Provient du cours, inapplicable ici.
+// export type ApiError = {
+//     error: string;
+// };
+//
+// async function fetchCandle(id: number): Promise<Candle> {
+//     const res = await fetch(`http://localhost:8080/candles/${id}`);
+//     if (!res.ok) {
+//         const problem: ApiError = await res.json(); // 404 : le JSON a la forme d'une erreur
+//         throw new Error(problem.error);
+//     }
+//     return await res.json(); // 200 : le JSON a la forme d'une bougie
+// }
 async function showCandle() {
     const candle = await fetchCandle(7);
     console.log(`${candle.name} : ${candle.price} €`);
